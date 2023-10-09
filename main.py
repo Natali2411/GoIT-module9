@@ -31,7 +31,7 @@ def parse_cli_command(cli_input: str) -> Tuple[str, callable, List[str]]:
     if cli_input == ".":
         return "good_bye", COMMANDS["good bye"], []
     for command_name, func in COMMANDS.items():
-        if cli_input.startswith(command_name):
+        if cli_input.lower().startswith(command_name):
             return command_name, func, cli_input[len(command_name):].strip().split()
     return "unknown", unknown, []
 
@@ -95,7 +95,13 @@ def show_all() -> str:
     Method that shows all users's phone numbers.
     :return: String with all phone numbers of all users.
     """
-    return f"Clients phone numbers are: {records}"
+    s = "{:^50}".format("***Clients phone numbers***")
+    s += "\n{:<10} | {:<20} | {:<20} |\n".format("Number", "User name", "Phone number")
+    counter = 1
+    for record_id, record_value in records.items():
+        s += '{:<10} | {:<20} | {:<20} |\n'.format(counter, record_id, record_value)
+        counter += 1
+    return s
 
 
 @input_error
